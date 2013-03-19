@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 Sorter bubblesort = new BubbleSorter();
 Sorter quicksort = new QuickSorter();
-int[] items = new int[100];
+int[] items = new int[45];
 
 List<Step> bubbleSortPlan;
 List<Step> quickSortPlan;
@@ -12,7 +12,7 @@ List<Step> quickSortPlan;
 final float lmargin = 10f, rmargin = 10f;
 final float tmargin = 20f, bmargin = 10f;
 final float stepWidth = 20f;
-final float lineHeight = 350;
+final float lineHeight = items.length * 4;
 final float lineMargin = 20f;
 
 float cursorX = lmargin, cursorY = tmargin;
@@ -24,7 +24,7 @@ int programCounter = -1;
 Step instruction;
 
 void setup() {
-	size(1300, 600);
+	size(450,300);
 	offsetX = width;
 	smooth();
 	Random r = new Random();
