@@ -15,4 +15,6 @@ interface IStep {
 	public int[] controlPoints();
 
 	public boolean isControlPoint(int i);
+
+	public void exec(int[] array);
 }

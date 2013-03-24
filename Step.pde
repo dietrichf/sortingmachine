@@ -39,6 +39,14 @@ class Step implements IStep {
 		return false;
 	}
 
+	public void exec(int[] array) {
+		if(swap()) {
+			int tmp = array[lo];
+			array[lo] = array[hi];
+			array[hi] = tmp;
+		}
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("compared positions ")
