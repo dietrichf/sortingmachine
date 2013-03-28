@@ -2,10 +2,15 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.common.base.Objects;
-
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.concurrent.*;
 
 Sorter bubblesort = new BubbleSorter();
 Sorter quicksort = new QuickSorter();
@@ -14,6 +19,7 @@ int[] items = new int[100];
 List<Step> bubbleSortPlan;
 List<Step> quickSortPlan;
 
+boolean simple = true;
 final float lmargin = 10f, rmargin = 10f;
 final float tmargin = 20f, bmargin = 10f;
 final float stepWidth = 20f;
@@ -24,7 +30,6 @@ float cursorX = lmargin, cursorY = tmargin;
 float offsetX;
 SortingMachine m;
 IRenderer r;
-boolean simple = false;
 
 int programCounter = -1;
 Step instruction;
@@ -65,6 +70,7 @@ int[] copy(int[] a) {
 void draw() {
 	r.draw();
 	r.tick();
+	/**
 	background(255,255,255);
 	resetCursor();
 	if(simple) {
@@ -78,6 +84,7 @@ void draw() {
 		offsetX -= 4;
 		renderItems();
 	}
+	**/
 }
 
 void emitStep(Step step) {
@@ -242,3 +249,30 @@ void setProgramCounter(int pc, Step step) {
 		emitStep(step);
 	}
 }
+
+public int[] asIntArray(Map<String, Object> m, String key) {
+	List<Object> list = (List<Object>)m.get(key);
+	int[] a = new int[list.size()];
+	for(int i = 0; i < a.length; i++) {
+		a[i] = (Integer)list.get(i);
+	}
+	return a;
+}
+
+public String[] asStringArray(Map<String, Object> m, String key) {
+	List<Object> list = (List<Object>)m.get(key);
+	String[] a = new String[list.size()];
+	for(int i = 0; i < a.length; i++) {
+		a[i] = (String)list.get(i);
+	}
+	return a;
+}
+
+public String join(int[] a, String s) {
+	List<Integer> list = Lists.newArrayListWithCapacity(a.length);
+	for(int i = 0; i < a.length; i++) {
+		list.add(a[i]);
+	}
+	return Joiner.on(s).join(list);
+}
+

@@ -1,32 +1,46 @@
 {
-	"animated": false,
+	"animated": true,
 	"window": {
 		"margins": [20, 10, 10, 10],
-		"width": 1200,
+		"width": 1400,
 		"height": 800
 	},
-	"runlist": [
+	"noteheight": 2,
+	"stepwidth": 7.0,
+	"jobs": [
 		{
 			"label": "Quicksort with random input",
 			"sort": "quicksort",
 			"data": "random-10"
+		},
+		{
+			"label": "Quicksort with sorted input",
+			"sort": "quicksort",
+			"data": "sequential-10"
+		},
+		{
+			"label": "Quicksort against a reverse sorted 100 element array with 10 unique values",
+			"sort": "quicksort",
+			"data": "reverse-100"
 		}
 	],
 	"data": {
 		"random-10": {
 			"label": "10 random integers",
-			"random": {
-				"size": 10,
-				"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-			}
+			"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			"steps": ["shuffle"]
 		},
 		"sequential-10": {
 			"label": "10 sequential integers",
 			"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 		},
-		"reverse-80": {
-			"label": "10 unique values in an array of size 100",
-			"steps": ["reverse"]
+		"reverse-100": {
+			"label": "10 unique values in an array of size 100, reverse sorted",
+			"steps": ["sort", "reverse"],
+			"random": {
+				"size": 100,
+				"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+			}
 		}
 	}
 }
