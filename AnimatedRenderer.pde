@@ -7,7 +7,7 @@ class AnimatedRenderer implements Drawable {
 	private List<Drawable> instructionDrawables;
 
 	float playerX = 0f, playerY = 0f;
-	float offsetX;
+	Integrator playerOffsetX = new Integrator(0);
 
 	AnimatedRenderer(SortingMachine m) {
 		this.m = m;
@@ -44,6 +44,7 @@ class AnimatedRenderer implements Drawable {
 	}
 
 	public void tick() {
+		playerOffsetX.tick();
 		for(Drawable d : instructionDrawables) {
 			d.tick();
 		}
@@ -52,9 +53,10 @@ class AnimatedRenderer implements Drawable {
 	public void draw() {
 		background(255,255,255);
 		pushMatrix();
-		float offsetX = pc * m.getStepWidth();
-		translate(width/2 - offsetX - playerX, playerY);
-		for(Drawable d : instructionDrawables) {
+		playerOffsetX.target((float)pc * m.getStepWidth());
+		translate(width/2 - playerOffsetX.value - playerX, playerY);
+		for(int i = 0; i < instructionDrawables.size(); i++) {
+			Drawable d = instructionDrawables.get(i);
 			d.draw();
 		}
 		popMatrix();
@@ -62,6 +64,5 @@ class AnimatedRenderer implements Drawable {
 
 	private void nextInstruction() {
 		pc++;
-		println("next instruction");
 	}
 }
