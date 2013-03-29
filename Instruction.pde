@@ -1,4 +1,4 @@
-interface IStep {
+interface Instruction {
 
 	// the low index of the compare
 	public int lo();
@@ -15,6 +15,7 @@ interface IStep {
 	public int[] controlPoints();
 
 	public boolean isControlPoint(int i);
+	public boolean isBeingSwapped(int i);
 
 	public void exec(int[] array);
 }

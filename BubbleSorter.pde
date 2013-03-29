@@ -14,8 +14,8 @@ for i = 1:n,
     break if not swapped
 end
  **/
-	public List<Step> plan(int[] items) {
-		List<Step> steps = new LinkedList<Step>();
+	public List<Instruction> plan(int[] items) {
+		List<Instruction> steps = new LinkedList<Instruction>();
 		for(int i = 0; i < items.length; i++) {
 			boolean swapped = false;
 			for(int j = items.length-1; j > i; j--) {
@@ -24,10 +24,10 @@ end
 					items[j] = items[j-1];
 					items[j-1] = tmp;
 					swapped = true;
-					steps.add(new Step(j-1, j, true, null));
+					steps.add(new InstructionImpl(j-1, j, true, null));
 				}
 				else {
-					steps.add(new Step(j-1, j, false, null));
+					steps.add(new InstructionImpl(j-1, j, false, null));
 				}
 			}
 			if(!swapped) {

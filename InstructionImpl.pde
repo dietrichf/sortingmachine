@@ -1,10 +1,10 @@
-class Step implements IStep {
+class InstructionImpl implements Instruction {
 
 	private int lo, hi;
 	private boolean swap;
 	private int[] controlPoints;
 
-	Step(int lo, int hi, boolean swap, int[] controlPoints) {
+	InstructionImpl(int lo, int hi, boolean swap, int[] controlPoints) {
 		this.lo = lo;
 		this.hi = hi;
 		this.swap = swap;
@@ -37,6 +37,10 @@ class Step implements IStep {
 			}
 		}
 		return false;
+	}
+
+	public boolean isBeingSwapped(int i) {
+		return (i == lo || i == hi) && swap;
 	}
 
 	public void exec(int[] array) {

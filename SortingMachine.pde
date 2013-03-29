@@ -38,7 +38,7 @@ class SortingMachine {
 		smooth();
 	}
 
-	IRenderer getRenderer() {
+	Drawable getRenderer() {
 		if(this.config.isAnimated()) {
 			return new AnimatedRenderer(this);
 		}
@@ -75,7 +75,7 @@ class SortJob {
 	private String label;
 	private Sorter sorter;
 	private DataSet data;
-	private List<Step> instructions;
+	private List<Instruction> instructions;
 
 	SortJob(SortingMachine m, SortJobConfig c) {
 		this.label = c.getLabel();
@@ -100,7 +100,7 @@ class SortJob {
 		instructions = sorter.plan(data.getValues());
 	}
 
-	public List<Step> getInstructions() {
+	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 

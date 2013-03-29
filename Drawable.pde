@@ -1,4 +1,4 @@
-interface IRenderer {
+interface Drawable {
 	void setup();
 	void tick();
 	void draw();

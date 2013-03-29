@@ -22,8 +22,8 @@ function quicksort(array, left, right)
 	  // Recursively sort elements at least as big as the pivot
 	  quicksort(array, pivotNewIndex + 1, right)
  **/
-	public List<Step> plan(int[] items) {
-		List<Step> steps = new LinkedList<Step>();
+	public List<Instruction> plan(int[] items) {
+		List<Instruction> steps = new LinkedList<Instruction>();
 		if(items.length < 2) {
 			return steps;
 		}
@@ -36,7 +36,7 @@ function quicksort(array, left, right)
 		return steps;
 	}
 
-	private void quicksort(List<Step> steps, int[] items, int left, int right) {
+	private void quicksort(List<Instruction> steps, int[] items, int left, int right) {
 		if(left < right) {
 			int pivot = left + (right - left)/2;
 			int nextPivot = partition(steps, items, left, right, pivot);
@@ -60,27 +60,27 @@ function partition(array, left, right, pivotIndex)
   swap array[storeIndex] and array[right]  // Move pivot to its final place
   return storeIndex
 **/
-	private int partition(List<Step> steps, int[] items, int left, int right, int pivot) {
+	private int partition(List<Instruction> steps, int[] items, int left, int right, int pivot) {
 		int pivotValue = items[pivot];
 		swap(items, pivot, right);
-		steps.add(new Step(pivot, right, true, new int[] {left, right}));
+		steps.add(new InstructionImpl(pivot, right, true, new int[] {left, right}));
 		int storeIndex = left;
 		for(int i = left; i < right; i++) {
 			if(items[i] < pivotValue) {
 				if(i != storeIndex) {
 					swap(items, i, storeIndex);
-					steps.add(new Step(i, storeIndex, true, new int[] {left, right}));
+					steps.add(new InstructionImpl(i, storeIndex, true, new int[] {left, right}));
 				}
 				storeIndex++;
 			}
 			else {
 				if(i != pivot) {
-					steps.add(new Step(i, pivot, false, new int[] {left, right}));
+					steps.add(new InstructionImpl(i, pivot, false, new int[] {left, right}));
 				}
 			}
 		}
 		swap(items, storeIndex, right);
-		steps.add(new Step(storeIndex, right, true, new int[] {left, right}));
+		steps.add(new InstructionImpl(storeIndex, right, true, new int[] {left, right}));
 		return storeIndex;
 	}
 

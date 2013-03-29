@@ -1,4 +1,4 @@
-class AnimatedRenderer implements IRenderer {
+class AnimatedRenderer implements Drawable {
 	
 	private SortingMachine m;
 

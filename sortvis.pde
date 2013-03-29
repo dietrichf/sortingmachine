@@ -16,8 +16,8 @@ Sorter bubblesort = new BubbleSorter();
 Sorter quicksort = new QuickSorter();
 int[] items = new int[100];
 
-List<Step> bubbleSortPlan;
-List<Step> quickSortPlan;
+List<Instruction> bubbleSortPlan;
+List<Instruction> quickSortPlan;
 
 boolean simple = true;
 final float lmargin = 10f, rmargin = 10f;
@@ -29,10 +29,10 @@ final float lineHeight = items.length * 4 + lineMargin;
 float cursorX = lmargin, cursorY = tmargin;
 float offsetX;
 SortingMachine m;
-IRenderer r;
+Drawable r;
 
 int programCounter = -1;
-Step instruction;
+Instruction instruction;
 
 void setup() {
 
@@ -55,9 +55,9 @@ void setup() {
 	quickSortPlan = sort(quicksort, items);
 }
 
-List<Step> sort(Sorter sorter, int[] in) {
+List<Instruction> sort(Sorter sorter, int[] in) {
 	int[] items = copy(in);
-	List<Step> steps = sorter.plan(items);
+	List<Instruction> steps = sorter.plan(items);
 	return steps;
 }
 
@@ -86,10 +86,10 @@ void draw() {
 	}
 	**/
 }
-
-void emitStep(Step step) {
-	instruction = step;
-	step.exec(items);
+/**
+void emitInstruction(Instruction i) {
+	instruction = i;
+	instruction.exec(items);
 }
 
 void renderItems() {
@@ -123,11 +123,11 @@ void renderItems() {
 	popMatrix();
 }
 
-void drawPlan(int[] items, List<Step> plan) {
+void drawPlan(int[] items, List<Instruction> plan) {
 	int[] workingSet = copy(items);
 	for(int i = 0; i < plan.size(); i++) {
-		Step step = plan.get(i);
-		drawStep(workingSet, i, step);
+		Instruction inst = plan.get(i);
+		drawStep(workingSet, i, inst);
 		incrementCursorPosition();
 	}
 
@@ -137,7 +137,7 @@ void drawPlan(int[] items, List<Step> plan) {
 	}
 }
 
-void drawStep(int[] workingSet, int pc, Step step) {
+void drawStep(int[] workingSet, int pc, Instruction inst) {
 
 	if(offsetX + cursorX + stepWidth < 0) {
 		return;
@@ -153,7 +153,7 @@ void drawStep(int[] workingSet, int pc, Step step) {
 	float itemHeight = linePixels / (float)workingSet.length;
 
 	if(!simple && (offsetX + cursorX) < width/2 && (offsetX + cursorX + stepWidth) > width/2) {
-		setProgramCounter(pc, step);
+		setProgramCounter(pc, inst);
 		pushStyle();
 		fill(255,255,0,50);
 		noStroke();
@@ -166,13 +166,13 @@ void drawStep(int[] workingSet, int pc, Step step) {
 		pushStyle();
 
 		// draw control points no matter what
-		if(step.isControlPoint(i) && !((i == step.hi() || i == step.lo()) && step.swap())) {
+		if(inst.isControlPoint(i) && !((i == inst.hi() || i == inst.lo()) && inst.swap())) {
 			stroke(15,59,160,100);
 			line(0, y, stepWidth-1f, y);
 		}
 
-		if(i == step.hi() || i == step.lo()) {
-			if(step.swap()) {
+		if(i == inst.hi() || i == inst.lo()) {
+			if(inst.swap()) {
 				stroke(0,0,0,255);
 			}
 			else {
@@ -182,16 +182,16 @@ void drawStep(int[] workingSet, int pc, Step step) {
 		else {
 			stroke(0,0,0,30);
 		}
-		if(step.swap()) {
+		if(inst.swap()) {
 		/**
 		  noFill();
           beginShape();
           vertex(startX, drawY);
           bezierVertex(cx1, cy1, cx2, cy2, endX, thumbnailY);
           endShape();
-		**/
-			if(i == step.hi()) {
-				float endY = step.lo() * itemHeight;
+		/
+			if(i == inst.hi()) {
+				float endY = inst.lo() * itemHeight;
 				// curve to step.lo()
 				noFill();
 				beginShape();
@@ -199,8 +199,8 @@ void drawStep(int[] workingSet, int pc, Step step) {
 				bezierVertex(stepWidth/2f, y, stepWidth - stepWidth/2f, endY, stepWidth, endY);
 				endShape();
 			}
-			else if(i == step.lo()) {
-			/**
+			else if(i == inst.lo()) {
+		
 				// curve to step.hi()
 				float endY = step.hi() * itemHeight;
 				// curve to step.lo()
@@ -209,7 +209,7 @@ void drawStep(int[] workingSet, int pc, Step step) {
 				vertex(0, y);
 				bezierVertex(stepWidth/2f, y, stepWidth - stepWidth/2f, endY, stepWidth, endY);
 				endShape();
-			**/
+			**
 			}
 			else {
 				line(0, y, stepWidth-1f, y);
@@ -222,7 +222,8 @@ void drawStep(int[] workingSet, int pc, Step step) {
 	}
 	popMatrix();
 }
-
+**/
+/**
 void incrementCursorPosition() {
 	cursorX += stepWidth;
 	if(simple) {
@@ -243,12 +244,13 @@ void newline() {
 	cursorY += lineHeight;
 }
 
-void setProgramCounter(int pc, Step step) {
+void setProgramCounter(int pc, Instruction i) {
 	if(programCounter != pc) {
 		programCounter = pc;
-		emitStep(step);
+		emitInstruction(i);
 	}
 }
+**/
 
 public int[] asIntArray(Map<String, Object> m, String key) {
 	List<Object> list = (List<Object>)m.get(key);
