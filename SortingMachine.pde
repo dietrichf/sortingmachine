@@ -42,7 +42,7 @@ class SortingMachine {
 		if(this.config.isAnimated()) {
 			return new AnimatedRenderer(this);
 		}
-		return new Renderer(this);
+		return new StaticRenderer(this);
 	}
 
 	DataSet getData(String id) {

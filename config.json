@@ -1,5 +1,5 @@
 {
-	"animated": false,
+	"animated": true,
 	"window": {
 		"margins": [20, 10, 10, 10],
 		"width": 1400,
