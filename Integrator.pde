@@ -20,6 +20,7 @@ class Integrator {
 
   Integrator(float value) {
 	this.value = value;
+	this.target = value;
   }
 
 
@@ -32,8 +33,8 @@ class Integrator {
 
   void set(float v) {
 	value = v;
+	target = v;
   }
-
 
   void tick() {
 	if (targeting) {

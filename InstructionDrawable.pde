@@ -3,6 +3,7 @@ class InstructionDrawable implements Drawable {
 	private final float x, y;
 	private final float noteHeight;
 	private final float noteWidth;
+	private boolean executing;
 
 	private final Instruction instruction;
 
@@ -24,6 +25,13 @@ class InstructionDrawable implements Drawable {
 	public void draw() {
 		pushMatrix();
 		translate(x, y);
+		if(executing) {
+			pushStyle();
+			fill(255,255,0,50);
+			noStroke();
+			rect(0,0,noteWidth,noteHeight * a.length);
+			popStyle();
+		}
 		for(int i = 0; i < a.length; i++) {
 			float noteY = i * noteHeight;
 			pushStyle();
@@ -76,5 +84,9 @@ class InstructionDrawable implements Drawable {
 			popStyle();
 		}
 		popMatrix();
+	}
+
+	public void setExecuting(boolean b) {
+		this.executing = b;
 	}
 }
