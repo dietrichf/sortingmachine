@@ -1,5 +1,4 @@
-class StaticRenderer implements Drawable {
-	
+class StaticRenderer implements Drawable { 
 	SortingMachine m;
 
 	float labelHeight = 20f;
@@ -16,6 +15,16 @@ class StaticRenderer implements Drawable {
 		drawables = new ArrayList<Drawable>();
 	}
 
+	public void place(Point p) { }
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
 	public void setup() {
 		System.out.println("configuring standard view");
 		m.setup();
@@ -26,9 +35,10 @@ class StaticRenderer implements Drawable {
 		for(SortJob job : m.getSortJobs()) {
 			LabelDrawable lbl =
 				new LabelDrawable(
-					job.getLabel(), cursorX, cursorY, LEFT, CENTER,
+					job.getLabel(), LEFT, CENTER,
 					labelFont
 				);
+			lbl.place(new Point(cursorX, cursorY));
 			drawables.add(lbl);
 			cursorY += labelHeight;
 			DataSet data = job.getData();
@@ -38,10 +48,10 @@ class StaticRenderer implements Drawable {
 				InstructionDrawable d =
 					new InstructionDrawable(
 						instruction,
-						cursorX, cursorY,
 						noteHeight, noteWidth, 
 						a
 					);
+				d.place(new Point(cursorX, cursorY));
 				drawables.add(d);
 				incrementCursorPosition(noteWidth);
 			}

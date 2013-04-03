@@ -10,16 +10,27 @@ class ArrayDrawable implements Drawable {
 
 	private BarDrawable[] bars;
 
-	ArrayDrawable(int[] a, float x, float y, float dwidth, float dheight, float topMargin, float rightMargin, float bottomMargin, float leftMargin) {
+	ArrayDrawable(int[] a, float dwidth, float dheight, float topMargin, float rightMargin, float bottomMargin, float leftMargin) {
 		this.a = a;
-		this.x = new Integrator(x);
-		this.y = new Integrator(y);
 		this.dwidth = new Integrator(dwidth);
 		this.dheight = new Integrator(dheight);
 		this.topMargin = new Integrator(topMargin);
 		this.rightMargin = new Integrator(rightMargin);
 		this.bottomMargin = new Integrator(bottomMargin);
 		this.leftMargin = new Integrator(leftMargin);
+	}
+
+	public void place(Point p) {
+		this.x = new Integrator(p.x);
+		this.y = new Integrator(p.y);
+	}
+
+	public float getWidth() {
+		return dwidth.target;
+	}
+
+	public float getHeight() {
+		return dheight.target;
 	}
 
 	public void execute(Instruction instruction) {
@@ -35,6 +46,13 @@ class ArrayDrawable implements Drawable {
 			bars[lo] = bars[hi];
 			bars[hi] = b;
 			bars[lo].exchange(bars[hi]);
+		}
+
+		// distribute state to all bars
+		for(int i = 0; i < bars.length; i++) {
+			bars[i].setControlPoint(instruction.isControlPoint(i));
+			bars[i].setComparing(i == instruction.hi() || i == instruction.lo());
+			bars[i].setSwapping(instruction.swap());
 		}
 	}
 
@@ -53,11 +71,14 @@ class ArrayDrawable implements Drawable {
 			// give the bar an x, y relative to the position of this drawable
 			bars[i] =
 				new BarDrawable(
-					leftMargin.value + (float)i*barWidth,
-					dheight.value - bottomMargin.value - (visibleHeight * fractionalHeight),
 					barWidth,
-					visibleHeight * fractionalHeight,
+					fractionalHeight * visibleHeight,
 					0, 0, 0, 30);
+			bars[i].place(
+				new Point(
+					leftMargin.value + (float)i*barWidth,
+					dheight.value - bottomMargin.value - (visibleHeight * fractionalHeight)
+				));
 		}
 	}
 
@@ -128,10 +149,10 @@ class ArrayDrawable implements Drawable {
 		ArrayDrawable out =
 			new ArrayDrawable(
 				copy(a),
-				x.target, y.target,
 				dwidth.target, dheight.target,
 				topMargin.target, rightMargin.target, bottomMargin.target, leftMargin.target
 			);
+		out.place(new Point(x.target, y.target));
 		return out;
 	}
 }

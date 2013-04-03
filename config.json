@@ -2,16 +2,16 @@
 	"animated": true,
 	"window": {
 		"margins": [20, 10, 10, 10],
-		"width": 1400,
-		"height": 850
+		"width": 1200,
+		"height": 800
 	},
 	"noteheight": 5,
-	"stepwidth": 15.0,
+	"stepwidth": 12.0,
 	"jobs": [
 		{
 			"label": "Quicksort with random input",
 			"sort": "quicksort",
-			"data": "reverse-30"
+			"data": "random-10"
 		},
 		{
 			"label": "Quicksort with sorted input",

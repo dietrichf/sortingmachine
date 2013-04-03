@@ -1,6 +1,6 @@
 class InstructionDrawable implements Drawable {
 	
-	private final float x, y;
+	private float x, y;
 	private final float noteHeight;
 	private final float noteWidth;
 	private boolean executing;
@@ -9,13 +9,24 @@ class InstructionDrawable implements Drawable {
 
 	private final int[] a;
 
-	public InstructionDrawable(Instruction instruction, float x, float y, float noteHeight, float noteWidth, int[] a) {
+	public InstructionDrawable(Instruction instruction, float noteHeight, float noteWidth, int[] a) {
 		this.instruction = instruction;
-		this.x = x;
-		this.y = y;
 		this.noteHeight = noteHeight;
 		this.noteWidth = noteWidth;
 		this.a = a;
+	}
+
+	public void place(Point p) {
+		this.x = p.x;
+		this.y = p.y;
+	}
+
+	public float getWidth() {
+		return noteWidth;
+	}
+
+	public float getHeight() {
+		return noteHeight * (float)a.length;
 	}
 
 	public void setup() { }

@@ -3,13 +3,25 @@ class LabelDrawable implements Drawable {
 	private float x, y;
 	private PFont font;
 	private String text;
-	LabelDrawable(String text, float x, float y, int lalign, int ralign, PFont font) {
+	LabelDrawable(String text, int lalign, int ralign, PFont font) {
 		this.text = text;
-		this.x = x;
-		this.y = y;
 		this.lalign = lalign;
 		this.ralign = ralign;
 		this.font = font;
+	}
+
+	public void place(Point p) {
+		this.x = p.x;
+		this.y = p.y;
+	}
+
+	public float getWidth() {
+		// reserve entire line
+		return width;
+	}
+
+	public float getHeight() {
+		return 30f; // ??????????
 	}
 
 	public void setup() { }

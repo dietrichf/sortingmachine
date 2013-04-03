@@ -9,8 +9,7 @@ class AnimatedRenderer implements Drawable {
 	private List<ArrayDrawable> snapshots;
 	private List<Instruction> program;
 
-	float playerX = 0f, playerY = 0f;
-	Integrator playerOffsetX = new Integrator(0);
+	Layout sheetLayout;
 
 	private AtomicBoolean sendInstruction = new AtomicBoolean(false);
 
@@ -27,43 +26,48 @@ class AnimatedRenderer implements Drawable {
 	public void setup() {
 		System.out.println("configuring standard view");
 		m.setup();
-		playerX = m.getWindow().getLeftMargin();
-		playerY = m.getWindow().getTopMargin();
+		sheetLayout = new Layout(m.getWindow().getLeftMargin(), m.getWindow().getTopMargin(), width/2, height);
 		float cursorX = 0f, cursorY = 0f;
 		SortJob job = m.getSortJobs().get(0);
 		DataSet data = job.getData();
 		program = job.getInstructions();
-		instructionDrawables = Lists.newArrayListWithCapacity(program.size());
-		for(Instruction instruction : program) {
-			InstructionDrawable d =
-				new InstructionDrawable(
-					instruction,
-					cursorX, cursorY,
-					m.getNoteHeight(), m.getStepWidth(),
-					data.getValues()
-				);
-			d.setup();
-			instructionDrawables.add(d);
-			cursorX += m.getStepWidth();
-		}
+		layoutSheetMusic(data.getValues());
 		arrayDrawable =
 			new ArrayDrawable(
 				data.getValues(), // values
-				m.getWindow().getLeftMargin(), // x
-				m.getNoteHeight()*data.getValues().length + m.getWindow().getTopMargin(), // y
-				width - m.getWindow().getLeftMargin() - m.getWindow().getRightMargin(),
-				200,
-				50, 20, 50, 20
+				width/2f, 130,
+				10, 10, 10, 10
 			);
+		arrayDrawable.place(
+			new Point(
+				width/2f, // x
+				m.getWindow().getTopMargin() // y
+			));
 		arrayDrawable.setup();
 		takeSnapshot();
 
+// throwaway debug thing that makes sure that the sorting instructions work
 		int[] a = copy(data.getValues());
 		println("before -->\n" + join(a, ", ") + "\n");
 		for(Instruction i : program) {
 			i.exec(a);
 		}
 		println("after -->\n" + join(a, ", ") + "\n");
+	}
+
+  public void layoutSheetMusic(int[] a) {
+		instructionDrawables = Lists.newArrayListWithCapacity(program.size());
+		for(Instruction instruction : program) {
+			InstructionDrawable d =
+				new InstructionDrawable(
+					instruction,
+					m.getNoteHeight(), m.getStepWidth(),
+					a
+				);
+			d.setup();
+			instructionDrawables.add(d);
+			sheetLayout.place(d);
+		}
 	}
 
 	private void takeSnapshot() {
@@ -81,7 +85,6 @@ class AnimatedRenderer implements Drawable {
 			nextInstruction();
 			sendInstruction.set(false);
 		}
-		playerOffsetX.tick();
 		for(int i = 0; i < instructionDrawables.size(); i++) {
 			InstructionDrawable d = instructionDrawables.get(i);
 			d.tick();
@@ -97,14 +100,10 @@ class AnimatedRenderer implements Drawable {
 
 	public void draw() {
 		background(255,255,255);
-		pushMatrix();
-		playerOffsetX.target((float)pc * m.getStepWidth());
-		translate(width/2 - playerOffsetX.value - playerX, playerY);
 		for(int i = 0; i < instructionDrawables.size(); i++) {
 			Drawable d = instructionDrawables.get(i);
 			d.draw();
 		}
-		popMatrix();
 		arrayDrawable.draw();
 		for(ArrayDrawable s : snapshots) {
 			s.draw();
@@ -130,19 +129,37 @@ class AnimatedRenderer implements Drawable {
 	}
 
 	private void layoutSnapshots() {
-		float visibleWidth = width - m.getWindow().getLeftMargin() - m.getWindow().getRightMargin();
-		float sx = m.getWindow().getLeftMargin();
+		Layout snapshotLayout =
+			new Layout(
+					width/2f,
+					arrayDrawable.x.value + arrayDrawable.getHeight(),
+					width,
+					0f
+				);
+		float visibleWidth = width/2f - m.getWindow().getLeftMargin() - m.getWindow().getRightMargin();
+		float sx = width/2f;
 		float sy = arrayDrawable.y.target + arrayDrawable.dheight.target;
-		float swidth = visibleWidth/12f;
+		float swidth = visibleWidth/7f;
 		float sheight = swidth * 9f / 16f;
 		for(ArrayDrawable d : snapshots) {
 			d.reposition(sx, sy, swidth, sheight, 10f, 10f, 10f, 10f);
 			d.targetColor(0, 0, 0, 100);
 			sx += swidth;
-			if((sx+swidth)> (width-m.getWindow().getRightMargin())) {
-				sx = m.getWindow().getLeftMargin();
+			if((sx+swidth) > (width-m.getWindow().getRightMargin())) {
+				sx = width/2f;
 				sy += sheight;
 			}
 		}
 	}
+
+	public void place(Point p) { }
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
 }
+
