@@ -13,47 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-Sorter bubblesort = new BubbleSorter();
-Sorter quicksort = new QuickSorter();
-int[] items = new int[100];
-
-List<Instruction> bubbleSortPlan;
-List<Instruction> quickSortPlan;
-
-boolean simple = true;
-final float lmargin = 10f, rmargin = 10f;
-final float tmargin = 20f, bmargin = 10f;
-final float stepWidth = 20f;
-final float lineMargin = 20f;
-final float lineHeight = items.length * 4 + lineMargin;
-
-float cursorX = lmargin, cursorY = tmargin;
-float offsetX;
 SortingMachine m;
 Drawable r;
 
-int programCounter = -1;
-Instruction instruction;
-
 void setup() {
-
 	m = new SortingMachine("/Users/d/git/sortvis/config.json");
 	r = m.getRenderer();
 	r.setup();
-
-	offsetX = width;
-
-	List<Integer> list = new ArrayList<Integer>(items.length);
-	for(int i = 0; i < items.length; i++) {
-		list.add(items.length-i);
-	}
-	Collections.shuffle(list);
-	for(int i = 0; i < items.length; i++) {
-		items[i] = list.get(i);
-	}
-
-	bubbleSortPlan = sort(bubblesort, items);
-	quickSortPlan = sort(quicksort, items);
 }
 
 List<Instruction> sort(Sorter sorter, int[] in) {
@@ -61,7 +27,6 @@ List<Instruction> sort(Sorter sorter, int[] in) {
 	List<Instruction> steps = sorter.plan(items);
 	return steps;
 }
-
 
 void draw() {
 	r.draw();
