@@ -26,6 +26,7 @@ class AnimatedRenderer implements Drawable {
 	public void setup() {
 		System.out.println("configuring standard view");
 		m.setup();
+		size(m.getWindow().getWidth(), m.getWindow().getHeight());
 		sheetLayout = new Layout(m.getWindow().getLeftMargin(), m.getWindow().getTopMargin(), width/2, height);
 		float cursorX = 0f, cursorY = 0f;
 		SortJob job = m.getSortJobs().get(0);
@@ -36,7 +37,7 @@ class AnimatedRenderer implements Drawable {
 			new ArrayDrawable(
 				data.getValues(), // values
 				width/2f, 130,
-				10, 10, 10, 10
+				10, 10, 10, 10, color(0, 0, 0, 30)
 			);
 		arrayDrawable.place(
 			new Point(
@@ -108,7 +109,7 @@ class AnimatedRenderer implements Drawable {
 		for(ArrayDrawable s : snapshots) {
 			s.draw();
 		}
-		//saveFrame("/tmp/sorting-machine/seq-####.tif");
+		/*saveFrame("/tmp/sorting-machine/b-####.tif");*/
 	}
 
 	private void nextInstruction() {
@@ -140,9 +141,9 @@ class AnimatedRenderer implements Drawable {
 		float sx = width/2f;
 		float sy = arrayDrawable.y.target + arrayDrawable.dheight.target;
 		float swidth = visibleWidth/7f;
-		float sheight = swidth * 9f / 16f;
+		float sheight = swidth * 7f / 16f;
 		for(ArrayDrawable d : snapshots) {
-			d.reposition(sx, sy, swidth, sheight, 10f, 10f, 10f, 10f);
+			d.reposition(sx, sy, swidth, sheight, 8f, 8f, 8f, 8f);
 			d.targetColor(0, 0, 0, 100);
 			sx += swidth;
 			if((sx+swidth) > (width-m.getWindow().getRightMargin())) {

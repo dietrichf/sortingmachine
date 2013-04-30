@@ -10,7 +10,9 @@ class ArrayDrawable implements Drawable {
 
 	private BarDrawable[] bars;
 
-	ArrayDrawable(int[] a, float dwidth, float dheight, float topMargin, float rightMargin, float bottomMargin, float leftMargin) {
+	private int c;
+
+	ArrayDrawable(int[] a, float dwidth, float dheight, float topMargin, float rightMargin, float bottomMargin, float leftMargin, int c) {
 		this.a = a;
 		this.dwidth = new Integrator(dwidth);
 		this.dheight = new Integrator(dheight);
@@ -18,6 +20,7 @@ class ArrayDrawable implements Drawable {
 		this.rightMargin = new Integrator(rightMargin);
 		this.bottomMargin = new Integrator(bottomMargin);
 		this.leftMargin = new Integrator(leftMargin);
+		this.c = c;
 	}
 
 	public void place(Point p) {
@@ -73,7 +76,7 @@ class ArrayDrawable implements Drawable {
 				new BarDrawable(
 					barWidth,
 					fractionalHeight * visibleHeight,
-					0, 0, 0, 30);
+					(int)red(c), (int)green(c), (int)blue(c), (int)alpha(c));
 			bars[i].place(
 				new Point(
 					leftMargin.value + (float)i*barWidth,
@@ -150,7 +153,9 @@ class ArrayDrawable implements Drawable {
 			new ArrayDrawable(
 				copy(a),
 				dwidth.target, dheight.target,
-				topMargin.target, rightMargin.target, bottomMargin.target, leftMargin.target
+				topMargin.target, rightMargin.target,
+				bottomMargin.target, leftMargin.target,
+				c
 			);
 		out.place(new Point(x.target, y.target));
 		return out;

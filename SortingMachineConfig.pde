@@ -1,6 +1,6 @@
 class SortingMachineConfig {
 
-	private boolean animated;
+	private String renderer;
 	private int noteHeight;
 	private float stepWidth;
 	private WindowConfig window;
@@ -8,7 +8,7 @@ class SortingMachineConfig {
 	private Map<String, DataConfig> dataById;
 
 	public SortingMachineConfig(Map<String, Object> in) {
-		this.animated = (Boolean)in.get("animated");
+		this.renderer = in.get("renderer").toString();
 		this.window = new WindowConfig((Map<String, Object>)in.get("window"));
 		List<Object> list = (List<Object>)in.get("jobs");
 		sortJobConfigs = new SortJobConfig[list.size()];
@@ -25,8 +25,8 @@ class SortingMachineConfig {
 		stepWidth = ((Double)in.get("stepwidth")).floatValue();
 	}
 
-	public boolean isAnimated() {
-		return this.animated;
+	public String getRenderer() {
+		return this.renderer;
 	}
 
 	public int getNoteHeight() {
@@ -51,7 +51,12 @@ class SortingMachineConfig {
 
 	public String toString() {
 		return Objects.toStringHelper(this)
-			.add("animated", animated)
+			.add("renderer", renderer)
+			.add("noteHeight", noteHeight)
+			.add("stepWidth", stepWidth)
+			.add("window", window)
+			.add("jobs", sortJobConfigs)
+			.add("dataById", dataById)
 			.toString();
 	}
 

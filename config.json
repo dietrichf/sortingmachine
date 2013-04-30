@@ -1,51 +1,76 @@
 {
-	"animated": true,
-	"window": {
-		"margins": [20, 10, 10, 10],
-		"width": 1200,
-		"height": 800
-	},
-	"noteheight": 5,
-	"stepwidth": 12.0,
-	"jobs": [
-		{
-			"label": "Quicksort with random input",
-			"sort": "quicksort",
-			"data": "random-10"
-		},
-		{
-			"label": "Quicksort with sorted input",
-			"sort": "quicksort",
-			"data": "sequential-10"
-		},
-		{
-			"label": "Quicksort against a reverse sorted 100 element array with 10 unique values",
-			"sort": "quicksort",
-			"data": "reverse-100"
-		}
-	],
-	"data": {
-		"random-10": {
-			"label": "10 random integers",
-			"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-			"steps": ["shuffle"]
-		},
-		"sequential-10": {
-			"label": "10 sorted integers",
-			"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-		},
-		"reverse-30": {
-			"label": "10 reverse sorted integers",
-			"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-			"steps": ["reverse"]
-		},
-		"reverse-100": {
-			"label": "10 unique values in an array of size 100, reverse sorted",
-			"steps": ["sort", "reverse"],
-			"random": {
-				"size": 30,
-				"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-			}
-		}
-	}
+  "renderer": "animated",
+  "window": {
+    "margins": [20, 10, 10, 10],
+    "width": 1024,
+    "height": 768
+  },
+  "noteheight": 5,
+  "stepwidth": 12.0,
+  "jobs": [
+    {
+      "label": "Quicksort with random input",
+      "sort": "quicksort",
+      "data": "random-30"
+    },
+    {
+      "label": "Quicksort with reverse ordered input",
+      "sort": "quicksort",
+      "data": "reverse-30"
+    },
+    {
+      "label": "Bubblesort with random input",
+      "sort": "bubblesort",
+      "data": "random-15"
+    },
+    {
+      "label": "Bubblesort with reverse ordered input",
+      "sort": "bubblesort",
+      "data": "reverse-15"
+    },
+    {
+      "label": "Quicksort with ordered input",
+      "sort": "quicksort",
+      "data": "sequential-30"
+    }
+  ],
+  "data": {
+    "random-30": {
+      "label": "30 random integers",
+      "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+      "steps": ["shuffle"]
+    },
+    "sequential-30": {
+      "label": "30 sorted integers",
+      "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    },
+    "reverse-30": {
+      "label": "30 reverse sorted integers",
+      "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+      "steps": ["reverse"]
+    },
+    "random-15": {
+      "label": "15 reverse sorted integers",
+      "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "steps": ["shuffle"]
+    },
+    "reverse-15": {
+      "label": "15 reverse sorted integers",
+      "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "steps": ["sort", "reverse"]
+    },
+    "reverse-100": {
+      "label": "10 unique values in an array of size 100, reverse sorted",
+      "steps": ["sort", "reverse"],
+      "random": {
+        "size": 30,
+        "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      }
+    },
+    "weird-numbers": {
+      "label": "Sequence of weird numbers",
+      "steps": ["shuffle"],
+      "values": [70, 836, 4030, 5830, 7192, 7912, 9272, 10430, 10570, 10792, 10990, 11410, 11690, 12110, 12530, 12670, 13370, 13510, 13790, 13930, 14770]
+    }
+  }
 }

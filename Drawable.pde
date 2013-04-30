@@ -19,15 +19,17 @@ class Layout {
 
 	float cursorX, cursorY;
 
-	float left, top, right, bottom;
+	float left, top, w, h;
 
-	Layout(float left, float top, float right, float bottom) {
+	float lastHeight = 10f;
+
+	Layout(float left, float top, float w, float h) {
 		this.cursorX = left;
 		this.cursorY = top;
 		this.left = left;
 		this.top = top;
-		this.right = right;
-		this.bottom = bottom;
+		this.w= w;
+		this.h = h;
 	}
 
 	// really stupid thing that assumes the next drawable will be of the same size
@@ -36,10 +38,15 @@ class Layout {
 		Point placement = new Point(cursorX, cursorY);
 		d.place(new Point(cursorX, cursorY));
 		cursorX += d.getWidth();
-		if(cursorX + d.getWidth() > right) {
-			cursorX = left;
-			cursorY += d.getHeight() + 20;
+		if(cursorX + d.getWidth() > w+8) {
+			lastHeight = d.getHeight();
+			newline();
 		}
 		return placement;
+	}
+
+	public void newline() {
+		cursorX = left;
+		cursorY += lastHeight + 20;
 	}
 }

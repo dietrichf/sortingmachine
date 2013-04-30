@@ -14,7 +14,7 @@ class SortingMachine {
 		try {
 			ObjectMapper om = new ObjectMapper();
 			Map<String, Object> config = om.readValue(
-				new File("/Users/d/git/sortvis/config.json"),
+				new File(file),
 				Map.class);
 			System.out.println("config ->\n" + config);
 			this.config = new SortingMachineConfig(config);
@@ -32,17 +32,21 @@ class SortingMachine {
 	}
 
 	void setup() {
-		size(
-			this.config.getWindow().getWidth(),
-			this.config.getWindow().getHeight());
 		smooth();
 	}
 
 	Drawable getRenderer() {
-		if(this.config.isAnimated()) {
+		String r = this.config.getRenderer();
+		if(r.equals("animated")) {
 			return new AnimatedRenderer(this);
 		}
-		return new StaticRenderer(this);
+		else if(r.equals("sheet")) {
+			return new StaticRenderer(this);
+		}
+		else if(r.equals("arcs")) {
+			return new ArcRenderer(this);
+		}
+		return new BannerRenderer(this);
 	}
 
 	DataSet getData(String id) {

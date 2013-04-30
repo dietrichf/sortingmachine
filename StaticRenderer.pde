@@ -28,6 +28,12 @@ class StaticRenderer implements Drawable {
 	public void setup() {
 		System.out.println("configuring standard view");
 		m.setup();
+		size(
+			m.getWindow().getWidth(),
+			m.getWindow().getHeight());
+		background(255);
+		noLoop();
+		beginRecord(PDF, "out.pdf");
 		float noteHeight = m.getNoteHeight();
 		float noteWidth = m.getStepWidth();
 		cursorX = m.getWindow().getLeftMargin();
@@ -56,14 +62,14 @@ class StaticRenderer implements Drawable {
 				incrementCursorPosition(noteWidth);
 			}
 			newline();
+			cursorY += 10f;
 		}
 	}
 
 	void incrementCursorPosition(float amt) {
 		cursorX += amt;
 		if(cursorX >= (width-amt-m.getWindow().getRightMargin())) {
-			cursorX = m.getWindow().getLeftMargin();
-			cursorY += lineHeight;
+			newline();
 		}
 	}
 
@@ -79,5 +85,6 @@ class StaticRenderer implements Drawable {
 		for(Drawable d : drawables) {
 			d.draw();
 		}
+		endRecord();
 	}
 }

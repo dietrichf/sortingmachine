@@ -45,7 +45,16 @@ class InstructionDrawable implements Drawable {
 		}
 		for(int i = 0; i < a.length; i++) {
 			float noteY = i * noteHeight;
+			if(instruction.swap()) {
+				/*if(i > instruction.lo() && i < instruction.hi()) {*/
+					/*continue;*/
+				/*}*/
+				/*if(i > instruction.hi() && i < instruction.lo()) {*/
+					/*continue;*/
+				/*}*/
+			}
 			pushStyle();
+			strokeCap(PROJECT);
 			if(instruction.isControlPoint(i) && !instruction.isBeingSwapped(i)) {
 				stroke(15,59,160,100);
 				line(0, noteY, noteWidth-1f, noteY);
@@ -59,7 +68,7 @@ class InstructionDrawable implements Drawable {
 					// either a swap or a compare
 					if(instruction.swap()) {
 						// draw swaps in bold
-						stroke(0,0,0,255);
+						stroke(0,0,0,200);
 					}
 					else {
 						// draw compares in red
@@ -77,10 +86,17 @@ class InstructionDrawable implements Drawable {
 						noFill();
 						beginShape();
 						vertex(0, noteY);
-						bezierVertex(noteWidth/2f, noteY, noteWidth/2f, endY, noteWidth, endY);
+						bezierVertex(noteWidth/2f, noteY, noteWidth/2f, endY, noteWidth-1f, endY);
 						endShape();
 					}
 					else if(i == instruction.lo()) {
+						/*float endY = instruction.hi() * noteHeight;*/
+						/*// curve to instruction.hi()*/
+						/*noFill();*/
+						/*beginShape();*/
+						/*vertex(0, noteY);*/
+						/*bezierVertex(noteWidth/2f, noteY, noteWidth/2f, endY, noteWidth-1f, endY);*/
+						/*endShape();*/
 						// don't draw
 					}
 					else {
